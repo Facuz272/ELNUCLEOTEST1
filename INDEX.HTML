@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>El Núcleo Club - Tu Transformación Comienza Aquí</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <style>
+        /* --- Base & Reset --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px; /* Base para rem */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            color: #fff;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            line-height: 1.6;
+            min-height: 100vh; /* Asegura que el body ocupe al menos toda la altura de la ventana */
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            line-height: 1.1;
+            margin-bottom: 0.5em;
+            color: #fff;
+        }
+
+        /* --- Contenedor Principal (para el fondo) --- */
+        .main-wrapper {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* --- Background Overlay (simulando la imagen/video de fondo oscuro de Capital Club) --- */
+        .background-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* IMAGEN DE FONDO PRINCIPAL - Capital Club Style */
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.9) 100%),
+                        url('foto3.jpeg'); /* Mantengo esta, ajustarla si es otra imagen */
+            background-size: cover;
+            background-position: center;
+            /* Filtro más sutil para permitir que los colores de la imagen se perciban mejor */
+            filter: grayscale(80%) brightness(60%) contrast(120%);
+            z-index: -1; /* Asegura que esté detrás del contenido */
+            animation: fadeInBackground 2s ease-out forwards;
+        }
+
+        @keyframes fadeInBackground {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* --- Header --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: transparent;
+            padding: 1.25rem 2.5rem; /* 20px 40px */
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        header.scrolled {
+            background-color: rgba(0, 0, 0, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.25rem; /* 20px */
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.625rem; /* 10px */
+            letter-spacing: 0.0625rem; /* 1px */
+            text-transform: uppercase;
+        }
+
+        .logo img {
+            height: 2rem; /* 32px */
+            width: 2rem; /* 32px */
+            object-fit: contain;
+            filter: invert(100%);
+        }
+
+        /* NEW: Header Navigation Menu */
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem; /* 24px */
+            list-style: none;
+        }
+
+        .nav-menu li a {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: #ccc;
+            transition: color 0.3s ease, transform 0.2s ease;
+            position: relative;
+            padding-bottom: 0.25rem;
+        }
+
+        .nav-menu li a:hover,
+        .nav-menu li a:focus {
+            color: #fff;
+            transform: translateY(-2px);
+            outline: none;
+        }
+
+        .nav-menu li a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: #007bff;
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu li a:hover::after {
+            width: 100%;
+        }
+
+
+        .login-button {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            background-color: transparent;
+            border: 1px solid #555; /* Borde más sutil */
+            padding: 0.625rem 1.25rem; /* 10px 20px */
+            border-radius: 0.25rem; /* 4px */
+            color: #ccc; /* Color más suave */
+            cursor: pointer;
+            font-size: 0.9rem; /* Un poco más pequeño */
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.03125rem; /* 0.5px */
+        }
+        .login-button:hover,
+        .login-button:focus {
+            background-color: rgba(255, 255, 255, 0.08); /* Más sutil */
+            border-color: #fff;
+            color: #fff;
+            outline: none;
+            transform: translateY(-2px); /* Pequeño levantamiento */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Sombra al hover */
+        }
+
+        /* --- Lead Capture Modal (Formulario de Acceso) --- */
+        .lead-capture-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.98);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            text-align: center;
+            opacity: 0; /* Inicialmente oculto */
+            visibility: hidden; /* Inicialmente oculto */
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .lead-capture-modal.visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .lead-capture-modal h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 1.25rem; /* 20px */
+            color: #fff;
+            font-family: 'Playfair Display', serif;
+        }
+        .lead-capture-modal p {
+            font-size: 1.1rem;
+            color: #bbb;
+            margin-bottom: 1.875rem; /* 30px */
+            max-width: 600px;
+        }
+        .lead-capture-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9375rem; /* 15px */
+            width: 90%;
+            max-width: 400px;
+        }
+        .lead-capture-form input[type="text"],
+        .lead-capture-form input[type="email"] {
+            padding: 0.9375rem 1.25rem; /* 15px 20px */
+            border: 1px solid #333;
+            background-color: #1a1a1a;
+            color: #fff;
+            border-radius: 0.3125rem; /* 5px */
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+        }
+        .lead-capture-form input::placeholder {
+            color: #777;
+        }
+        .lead-capture-form button {
+            background-color: #007bff;
+            color: white;
+            padding: 0.9375rem 1.25rem; /* 15px 20px */
+            border: none;
+            border-radius: 0.3125rem; /* 5px */
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.03125rem; /* 0.5px */
+        }
+        .lead-capture-form button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+        }
+
+        /* --- Secciones de Contenido (General) --- */
+        section {
+            padding: 7.5rem 2.5rem; /* 120px 40px - Más padding para el minimalismo y espacio */
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(1.25rem); /* 20px */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            /*box-shadow: 0 0 3.125rem rgba(0,0,0,0.5); /* 50px - Sombra suave entre secciones */
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            margin-bottom: 3.75rem; /* 60px */
+            text-transform: uppercase;
+            letter-spacing: 0.0625rem; /* 1px */
+            color: #fff;
+        }
+
+        section p {
+            font-size: 1.1rem;
+            color: #bbb;
+            max-width: 800px;
+            margin: 0 auto 1.25rem; /* 20px */
+            line-height: 1.8; /* Mayor espacio para mejor legibilidad */
+        }
+
+        /* --- Hero Section - REVISED --- */
+        .hero-section {
+            position: relative;
+            width: 100%;
+            height: 100vh; /* Ocupa toda la altura de la ventana */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+            overflow: hidden; /* Asegura que la imagen de fondo no se desborde */
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* CUIDADO AQUÍ: LA RUTA DE LA IMAGEN DE FONDO DE LA PORTADA */
+            background-image: url('foto5'); /* Ruta corregida */
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.4) contrast(1.2); /* Oscurece y aumenta el contraste para legibilidad */
+            z-index: 0; /* Asegura que esté detrás del contenido */
+            animation: zoomInBackground 20s infinite alternate ease-in-out; /* Efecto sutil de zoom */
+        }
+
+        @keyframes zoomInBackground {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+
+        .hero-content-wrapper {
+            position: relative;
+            z-index: 10; /* Asegura que el contenido esté sobre la imagen */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem; /* Padding interno para el contenido */
+            max-width: 900px; /* Limita el ancho del contenido principal */
+        }
+
+        .hero-logo {
+            width: 150px; /* Tamaño del logo en el hero */
+            height: 150px;
+            object-fit: contain;
+            /* CUIDADO AQUÍ: RUTA DEL LOGO */
+            filter: drop-shadow(0 0 10px rgba(0,255,255,0.5)) invert(100%); /* Sombra brillante y blanco */
+            margin-bottom: 2rem; /* Espacio debajo del logo */
+            animation: fadeInLogo 1.5s ease-out forwards;
+        }
+
+        @keyframes fadeInLogo {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-main-title {
+            font-weight: 900;
+            font-size: clamp(2.8rem, 6vw, 5rem); /* Ajuste de tamaño para más impacto y proporcionalidad, más condensado */
+            line-height: 1.1;
+            color: white;
+            margin: 0 auto 2rem; /* Espacio debajo del título */
+            letter-spacing: -0.05rem; /* Ajuste para que se vea más compacto */
+            text-transform: uppercase;
+            animation: fadeInText 1.5s ease-out forwards 0.5s; /* Retraso para aparecer después del logo */
+            text-shadow: 0 0 20px rgba(0,0,0,0.8), 0 0 10px rgba(0,255,255,0.3); /* Sombra de texto más pronunciada y sutil brillo */
+        }
+
+        @keyframes fadeInText {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: #eee;
+            margin-bottom: 3rem; /* Más espacio debajo del subtítulo */
+            max-width: 700px;
+            animation: fadeInText 1.5s ease-out forwards 0.8s;
+            line-height: 1.6;
+        }
+
+        /* --- NUEVO: Estilos para la frase dinámica --- */
+        .dynamic-slogan {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 3.5vw, 2.5rem); /* Tamaño adaptable */
+            font-weight: 700;
+            color: #007bff; /* Color de impacto */
+            min-height: 2.5rem; /* Asegura un espacio para el texto */
+            margin-bottom: 2rem; /* Espacio con el botón */
+            text-shadow: 0 0 10px rgba(0, 123, 255, 0.5); /* Brillo sutil */
+            opacity: 0; /* Inicialmente oculto */
+            animation: fadeInSlogan 1.5s ease-out forwards 1.0s; /* Aparece después del subtítulo */
+            position: relative; /* Para el cursor */
+            overflow: hidden; /* Para el efecto de máquina de escribir */
+            white-space: nowrap; /* Para que no salte de línea */
+            border-right: 3px solid #007bff; /* Cursor de máquina de escribir */
+            width: 0; /* Empezar con ancho 0 para la animación de escritura */
+            max-width: 100%; /* Asegura que no desborde en pantallas pequeñas */
+        }
+
+        @keyframes fadeInSlogan {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Animación de la escritura */
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        /* Animación del cursor (parpadeo) */
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #007bff; }
+        }
+
+        .dynamic-slogan span {
+            display: inline-block; /* Para el ancho y el overflow */
+        }
+        /* Fin de estilos de frase dinámica */
+
+
+        .btn-main-cta {
+            display: inline-block;
+            padding: 1.125rem 3.75rem; /* 18px 60px */
+            background-color: rgba(0, 123, 255, 0.8); /* Azul principal con transparencia */
+            color: #fff;
+            border-radius: 0.5rem; /* 8px */
+            border: 1px solid rgba(0, 123, 255, 0.5);
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: 0.0625rem; /* 1px */
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            text-transform: uppercase;
+            user-select: none;
+            box-shadow: 0 0.25rem 0.9375rem rgba(0,123,255,0.4); /* 4px 15px */
+            font-family: 'Inter', sans-serif;
+            animation: scaleIn 1.5s ease-out forwards 1.2s; /* Retraso para aparecer después del texto */
+            backdrop-filter: blur(5px); /* Desenfoque para el botón */
+        }
+        .btn-main-cta:hover,
+        .btn-main-cta:focus {
+            background-color: #007bff; /* Azul sólido */
+            border-color: #007bff;
+            transform: translateY(-0.1875rem) scale(1.02); /* -3px */
+            outline: none;
+            box-shadow: 0 0.5rem 1.25rem rgba(0,123,255,0.6); /* 8px 20px */
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* --- Social Icons in Hero Section --- */
+        .social-hero-section {
+            margin-top: 3.5rem; /* 56px - más espacio para separar del botón */
+            display: flex;
+            gap: 1.875rem; /* 30px */
+            justify-content: center;
+            color: #fff;
+            animation: fadeInIcons 1.5s ease-out forwards 1.5s; /* Retraso */
+        }
+        @keyframes fadeInIcons {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .social-hero-section a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 3.125rem; /* 50px */
+            height: 3.125rem; /* 50px */
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.08); /* Fondo más sutil */
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0.125rem 0.625rem rgba(0,0,0,0.2); /* 2px 10px */
+            backdrop-filter: blur(2px); /* Pequeño desenfoque detrás */
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .social-hero-section a:hover {
+            background-color: rgba(255, 255, 255, 0.15); /* Más vibrante al hover */
+            transform: translateY(-0.3125rem) scale(1.1); /* -5px */
+            box-shadow: 0 0.3125rem 0.9375rem rgba(0,0,0,0.4); /* 5px 15px */
+        }
+        .social-hero-section img {
+            width: 1.8rem; /* 28.8px */
+            height: 1.8rem; /* 28.8px */
+            vertical-align: middle;
+            filter: invert(100%);
+        }
+        .social-hero-section .material-icons {
+            font-size: 2.2rem;
+            line-height: 1;
+        }
+
+
+        /* --- Abstract Icons & Footer Text (from first image) --- */
+        .abstract-section {
+            padding-bottom: 5rem; /* 80px */
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(1.25rem); /* 20px */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            margin-top: 5rem; /* Más espacio para separar del hero */
+        }
+
+        .abstract-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .abstract-icons {
+            display: flex;
+            gap: 3.75rem; /* 60px */
+            justify-content: center;
+            color: #fff;
+            margin-bottom: 2.5rem; /* 40px */
+            opacity: 0.7; /* Más sutil */
+        }
+
+        .abstract-icon-item {
+            font-size: 3.5rem; /* 5rem -> 3.5rem para mejor proporción */
+            line-height: 1;
+            opacity: 0.6; /* Aún más sutil */
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .abstract-icon-item:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .abstract-section .text {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 0.95rem;
+            color: #bbb;
+            line-height: 1.6;
+        }
+
+        /* --- Section: El Núcleo --- */
+        #el-nucleo {
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.9) 100%),
+                        url('foto2.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Efecto Parallax */
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.8); /* Sombra interna para el fondo */
+        }
+        #el-nucleo .content-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem; /* 40px */
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        #el-nucleo .content-grid div {
+            text-align: left;
+            background-color: rgba(20, 20, 20, 0.7); /* Fondo más oscuro para legibilidad */
+            padding: 1.875rem; /* 30px */
+            border-radius: 0.5rem; /* 8px */
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        #el-nucleo .content-grid div:hover {
+            background-color: rgba(30, 30, 30, 0.8);
+            transform: translateY(-0.3125rem); /* -5px */
+            box-shadow: 0 0.625rem 1.875rem rgba(0,0,0,0.4); /* 10px 30px */
+        }
+        #el-nucleo .content-grid h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 3vw, 2.2rem); /* Ajuste de tamaño */
+            color: #fff;
+            margin-bottom: 0.9375rem; /* 15px */
+            letter-spacing: 0.5px;
+        }
+        #el-nucleo .content-grid p {
+            font-size: 1rem; /* 1.05rem -> 1rem */
+            color: #ccc;
+            line-height: 1.7;
+            margin-bottom: 0; /* Ya no hay margen inferior en los p dentro del grid */
+        }
+
+        /* --- Section: Ecosistema --- */
+        #ecosistema {
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.9) 100%),
+                        url('foto5.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Efecto Parallax */
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
+        }
+        #ecosistema .ecosystem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(17.5rem, 1fr)); /* 280px */
+            gap: 1.875rem; /* 30px */
+            margin-top: 3.125rem; /* 50px */
+        }
+        .ecosystem-item {
+            background-color: rgba(26, 26, 26, 0.8); /* Fondo semi-transparente para que se vea la imagen de fondo */
+            border-radius: 0.625rem; /* 10px */
+            padding: 1.875rem; /* 30px */
+            text-align: center;
+            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0.3125rem 0.9375rem rgba(0,0,0,0.2); /* 5px 15px */
+            backdrop-filter: blur(0.3125rem); /* 5px - Efecto de desenfoque para el fondo del elemento */
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .ecosystem-item:hover {
+            transform: translateY(-0.5rem); /* -8px */
+            background-color: rgba(42, 42, 42, 0.9);
+            box-shadow: 0 0.625rem 1.5625rem rgba(0,0,0,0.4); /* 10px 25px */
+        }
+        .ecosystem-item .material-icons {
+            font-size: 3.5rem; /* 4rem -> 3.5rem */
+            color: #007bff;
+            margin-bottom: 0.9375rem; /* 15px */
+        }
+        .ecosystem-item h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.4rem; /* 1.5rem -> 1.4rem */
+            margin-bottom: 0.625rem; /* 10px */
+            color: #fff;
+            font-weight: 600;
+        }
+        .ecosystem-item p {
+            font-size: 0.9rem; /* 0.95rem -> 0.9rem */
+            color: #bbb;
+            margin: 0;
+        }
+
+        /* --- Section: Mapa de Transformación --- */
+        #mapa {
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.9) 100%),
+                        url('foto4.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Efecto Parallax */
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
+        }
+        #mapa .transformation-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 5rem; /* 80px */
+            margin-top: 3.75rem; /* 60px */
+        }
+        .step-item {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem; /* 40px */
+            text-align: left;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            background-color: rgba(20, 20, 20, 0.6); /* Fondo semi-transparente */
+            padding: 1.875rem; /* 30px */
+            border-radius: 0.625rem; /* 10px */
+            border: 1px solid rgba(255,255,255,0.07);
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .step-item:hover {
+            background-color: rgba(30, 30, 30, 0.7);
+            transform: translateY(-0.3125rem); /* -5px */
+            box-shadow: 0 0.625rem 1.875rem rgba(0,0,0,0.4);
+        }
+        .step-item:nth-child(even) {
+            flex-direction: row-reverse;
+            text-align: right;
+        }
+        .step-item .step-number {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(4rem, 6vw, 6rem); /* 6rem */
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.08); /* Más tenue */
+            line-height: 1;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 2;
+        }
+        .step-item .step-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 2.8rem); /* 2.8rem */
+            color: #007bff;
+            margin-bottom: 0.625rem; /* 10px */
+        }
+        .step-item .step-content p {
+            font-size: 1rem; /* 1.1rem -> 1rem */
+            color: #ccc;
+            margin: 0;
+        }
+        #mapa .mapa-final-text {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 3vw, 2rem); /* 2rem */
+            color: #fff;
+            margin-top: 5rem; /* 80px */
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.4;
+            letter-spacing: 0.5px;
+        }
+        #mapa .mapa-final-text span {
+            display: block;
+            font-size: 1.1rem; /* 1.2rem -> 1.1rem */
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            margin-top: 0.9375rem; /* 15px */
+            color: #bbb;
+        }
+
+        /* --- Section: FAQ (Contacto) --- */
+        #contacto {
+            background-color: rgba(10, 10, 10, 0.7); /* Ligeramente más opaco para el contenido */
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
+        }
+        .faq-accordion {
+            max-width: 900px;
+            margin: 0 auto 3.125rem; /* 50px */
+            text-align: left;
+        }
+        .faq-item {
+            background-color: #1a1a1a;
+            border-bottom: 1px solid #333;
+            margin-bottom: 0.625rem; /* 10px */
+            border-radius: 0.5rem; /* 8px */
+            overflow: hidden;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .faq-item:hover {
+            background-color: #2a2a2a;
+            box-shadow: 0 0.3125rem 0.9375rem rgba(0,0,0,0.2); /* 5px 15px */
+        }
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 1.875rem; /* 20px 30px */
+            font-size: 1.1rem; /* 1.15rem -> 1.1rem */
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            background-color: transparent;
+            transition: color 0.3s ease;
+        }
+        .faq-question:hover {
+            color: #007bff;
+        }
+        .faq-question .icon {
+            font-size: 1.6rem; /* 1.8rem -> 1.6rem */
+            transition: transform 0.3s ease;
+        }
+        .faq-question.active .icon {
+            transform: rotate(45deg);
+        }
+        .faq-answer {
+            padding: 0 1.875rem; /* 30px */
+            font-size: 0.95rem; /* 1rem -> 0.95rem */
+            color: #bbb;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+            line-height: 1.7;
+        }
+        .faq-answer p {
+            padding-bottom: 1.25rem; /* 20px */
+            margin: 0;
+        }
+        .faq-question.active + .faq-answer {
+            max-height: 18.75rem; /* 300px */
+            padding-top: 0.625rem; /* 10px */
+        }
+
+        .contact-info {
+            margin-top: 3.125rem; /* 50px */
+            font-size: 1.05rem; /* 1.1rem -> 1.05rem */
+            color: #ccc;
+        }
+        .contact-info a {
+            color: #007bff;
+            text-decoration: underline;
+            transition: color 0.3s ease;
+        }
+        .contact-info a:hover {
+            color: #fff;
+        }
+
+        /* --- Sección de Actualizaciones (Placeholder) --- */
+        #actualizaciones {
+            padding: 6.25rem 2.5rem; /* 100px 40px */
+            background-color: rgba(10, 10, 10, 0.7);
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
+        }
+        #actualizaciones .placeholder-content {
+            padding: 3.125rem; /* 50px */
+            border: 2px dashed #333;
+            border-radius: 0.625rem; /* 10px */
+            max-width: 800px;
+            margin: 0 auto;
+            color: #777;
+            font-size: 1rem;
+        }
+
+        /* --- Sección Final de CTA --- */
+        #final-cta { /* ID específico para esta sección */
+            padding: 5rem 2.5rem; /* 80px 40px */
+            background-color: #000;
+            text-align: center;
+            border-top: 1px solid #1a1a1a; /* Pequeña separación visual */
+        }
+        #final-cta h2 {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            margin-bottom: 2.5rem; /* 40px */
+            color: #fff;
+        }
+        .cta-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem; /* 20px */
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .cta-option-button {
+            display: block;
+            padding: 1.125rem 1.875rem; /* 18px 30px */
+            background-color: #007bff;
+            color: white;
+            border-radius: 0.5rem; /* 8px */
+            font-size: 1.1rem; /* 1.2rem -> 1.1rem */
+            font-weight: 700;
+            letter-spacing: 0.03125rem; /* 0.5px */
+            text-transform: uppercase;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0.3125rem 0.9375rem rgba(0, 123, 255, 0.4); /* 5px 15px */
+            font-family: 'Inter', sans-serif;
+        }
+        .cta-option-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-0.1875rem); /* -3px */
+            box-shadow: 0 0.5rem 1.25rem rgba(0, 123, 255, 0.6); /* 8px 20px */
+        }
+        .cta-description {
+            font-size: 0.9rem; /* 0.95rem -> 0.9rem */
+            color: #bbb;
+            margin-top: 0.625rem; /* 10px */
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: #000;
+            padding: 2.5rem 1.25rem; /* 40px 20px */
+            text-align: center;
+            border-top: 1px solid #1a1a1a;
+            color: #888;
+            font-size: 0.85rem; /* 0.9rem -> 0.85rem */
+        }
+        .social-icons {
+            margin-bottom: 1.25rem; /* 20px */
+        }
+        .social-icons a {
+            display: inline-block;
+            margin: 0 0.625rem; /* 10px */
+            color: #fff;
+            font-size: 1.6rem; /* 1.8rem -> 1.6rem */
+            transition: color 0.3s ease, transform 0.2s ease;
+        }
+        .social-icons a:hover {
+            color: #007bff;
+            transform: translateY(-0.1875rem); /* -3px */
+        }
+        .social-icons a img {
+            width: 1.6em; /* 1.8em -> 1.6em */
+            height: 1.6em; /* 1.8em -> 1.6em */
+            vertical-align: middle;
+            filter: invert(100%);
+            transition: transform 0.2s ease;
+        }
+        .social-icons a:hover img {
+            transform: translateY(-0.1875rem); /* -3px */
+            filter: brightness(1.5) invert(0.2) sepia(1) saturate(5) hue-rotate(175deg);
+        }
+
+
+        /* --- WhatsApp Floating Button --- */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 1.875rem; /* 30px */
+            right: 1.875rem; /* 30px */
+            background-color: #25d366;
+            color: white;
+            border-radius: 50%;
+            width: 3.75rem; /* 60px */
+            height: 3.75rem; /* 60px */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 0.3125rem 0.9375rem rgba(0,0,0,0.3); /* 5px 15px */
+            z-index: 1500;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0.5rem 1.25rem rgba(0,0,0,0.5); /* 8px 20px */
+        }
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 900px) {
+            html {
+                font-size: 15px; /* Ajuste base para tablets */
+            }
+            header {
+                padding: 0.9375rem 1.25rem; /* 15px 20px */
+            }
+            .header-container {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .nav-menu {
+                order: 1; /* Pone el menú debajo del logo/login en pantallas pequeñas */
+                width: 100%;
+                justify-content: center;
+                margin-top: 1rem;
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
+
+            .hero-logo {
+                width: 120px;
+                height: 120px;
+                margin-bottom: 1.5rem;
+            }
+            .hero-main-title {
+                font-size: clamp(2.5rem, 8vw, 4.5rem); /* Ajuste para tablets */
+                margin-bottom: 2rem; /* 40px */
+            }
+            .hero-subtitle {
+                font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+                margin-bottom: 2.5rem;
+            }
+            /* Ajuste para la frase dinámica en móviles */
+            .dynamic-slogan {
+                font-size: clamp(1.2rem, 4vw, 2rem);
+                min-height: 2rem;
+                margin-bottom: 1.5rem;
+            }
+            .btn-main-cta {
+                padding: 0.9375rem 2.5rem; /* 15px 40px */
+                font-size: 1rem;
+            }
+            .social-hero-section {
+                gap: 1.25rem; /* 20px */
+                margin-top: 2.5rem; /* 40px */
+            }
+            .social-hero-section a {
+                width: 2.8125rem; /* 45px */
+                height: 2.8125rem; /* 45px */
+            }
+            .social-hero-section .material-icons,
+            .social-hero-section img {
+                font-size: 2rem;
+                width: 1.6em;
+                height: 1.6em;
+            }
+            .abstract-section {
+                margin-top: 3rem; /* Ajuste */
+            }
+            .abstract-icons {
+                flex-direction: column;
+                gap: 1.875rem; /* 30px */
+            }
+            .abstract-icon-item {
+                font-size: 3rem; /* 4rem -> 3rem */
+            }
+            .abstract-section .text, section p {
+                padding: 0 0.9375rem; /* 15px */
+            }
+            section {
+                padding: 5rem 1.25rem; /* 80px 20px */
+            }
+            section h2 {
+                font-size: clamp(2rem, 6vw, 3.5rem);
+                margin-bottom: 2.5rem; /* 40px */
+            }
+            #el-nucleo .content-grid {
+                gap: 1.875rem; /* 30px */
+            }
+            .ecosystem-grid {
+                grid-template-columns: 1fr;
+            }
+            .step-item {
+                flex-direction: column !important;
+                text-align: center;
+                gap: 1.25rem; /* 20px */
+            }
+            .step-item .step-number {
+                font-size: 3rem; /* 4rem -> 3rem */
+            }
+            .step-item .step-content h3 {
+                font-size: 1.8rem; /* 2rem -> 1.8rem */
+            }
+            #mapa .mapa-final-text {
+                font-size: 1.4rem; /* 1.5rem -> 1.4rem */
+            }
+            .faq-question {
+                font-size: 1rem;
+                padding: 0.9375rem 1.25rem; /* 15px 20px */
+            }
+            .faq-answer {
+                font-size: 0.9rem;
+                padding: 0 1.25rem; /* 20px */
+            }
+            #final-cta h2 {
+                font-size: clamp(1.8rem, 5vw, 3rem);
+            }
+            .cta-option-button {
+                font-size: 1rem;
+                padding: 0.9375rem 1.25rem; /* 15px 20px */
+            }
+            .whatsapp-float {
+                width: 3.125rem; /* 50px */
+                height: 3.125rem; /* 50px */
+                font-size: 1.8rem;
+                bottom: 1.25rem; /* 20px */
+                right: 1.25rem; /* 20px */
+            }
+        }
+
+        @media (max-width: 500px) {
+            html {
+                font-size: 14px; /* Ajuste base para móviles pequeños */
+            }
+            header {
+                padding: 0.625rem 0.9375rem; /* 10px 15px */
+            }
+            .logo {
+                font-size: 1rem;
+            }
+            .logo img {
+                height: 1.5rem; /* 24px */
+                width: 1.5rem; /* 24px */
+            }
+            .login-button {
+                padding: 0.5rem 0.9375rem; /* 8px 15px */
+                font-size: 0.85rem;
+            }
+            .nav-menu {
+                gap: 0.8rem;
+                font-size: 0.85rem;
+            }
+            .hero-logo {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 1rem;
+            }
+            .hero-main-title {
+                font-size: clamp(2rem, 10vw, 3rem); /* Ajuste más agresivo para móviles */
+                margin-bottom: 1.5rem; /* 24px */
+            }
+            .hero-subtitle {
+                font-size: clamp(0.85rem, 3vw, 1.1rem);
+                margin-bottom: 2rem;
+            }
+            /* Ajuste para la frase dinámica en móviles pequeños */
+            .dynamic-slogan {
+                font-size: clamp(1rem, 5vw, 1.8rem);
+                min-height: 1.8rem;
+                margin-bottom: 1.25rem;
+            }
+            .btn-main-cta {
+                padding: 0.75rem 1.875rem; /* 12px 30px */
+                font-size: 0.9rem;
+            }
+            .social-hero-section {
+                gap: 1rem; /* 16px */
+                margin-top: 1.5rem; /* 24px */
+            }
+            .social-hero-section a {
+                width: 2.5rem; /* 40px */
+                height: 2.5rem; /* 40px */
+            }
+            .social-hero-section .material-icons,
+            .social-hero-section img {
+                font-size: 1.8rem;
+                width: 1.4em;
+                height: 1.4em;
+            }
+            .abstract-section {
+                padding-bottom: 3.125rem; /* 50px */
+                margin-top: 2rem;
+            }
+            .abstract-icons {
+                gap: 1.25rem; /* 20px */
+            }
+            .abstract-icon-item {
+                font-size: 2.5rem; /* 3rem -> 2.5rem */
+            }
+            section {
+                padding: 3.75rem 0.9375rem; /* 60px 15px */
+            }
+            #el-nucleo .content-grid div {
+                padding: 1.25rem; /* 20px */
+            }
+            #el-nucleo .content-grid h3 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="leadCaptureModal" class="lead-capture-modal">
+        <h2>Bienvenido a El Núcleo</h2>
+        <p>
+            Para acceder al contenido exclusivo y comenzar tu transformación,
+            por favor, ingresa tu nombre y correo electrónico.
+        </p>
+        <form class="lead-capture-form" id="leadCaptureForm">
+            <input type="text" id="nameInput" placeholder="Tu Nombre" required />
+            <input type="email" id="emailInput" placeholder="Tu Correo Electrónico" required />
+            <button type="submit">ACCEDER AHORA</button>
+        </form>
+    </div>
+
+    <div class="main-wrapper">
+        <header>
+            <div class="header-container" role="banner">
+                <a href="#hero" class="logo" aria-label="El Núcleo Club Home">
+                    <img src="nucleo.jpg" alt="El Núcleo Club Logo" />
+                    EL NÚCLEO CLUB
+                </a>
+                <nav class="nav-menu" aria-label="Main Navigation">
+                    <li><a href="#el-nucleo">El Núcleo</a></li>
+                    <li><a href="#ecosistema">Ecosistema</a></li>
+                    <li><a href="#mapa">Transformación</a></li>
+                    <li><a href="#contacto">FAQ</a></li>
+                </nav>
+                <button class="login-button" aria-label="Iniciar Sesión">LOGIN</button>
+            </div>
+        </header>
+
+        <section id="hero" class="hero-section">
+            <div class="hero-background"></div>
+            <div class="hero-content-wrapper">
+                <img src="nucleo.jpg" alt="El Núcleo Club Logo" class="hero-logo" />
+                <h1 id="hero-main-title" class="hero-main-title">
+                    BIENVENIDO AL ÚNICO LUGAR<br />
+                    DONDE EL PROMEDIO NO SOBREVIVE
+                </h1>
+                <p class="hero-subtitle">
+                    Transforma tu mente, multiplica tu riqueza y expande tu impacto.
+                    Tu membresía a lo extraordinario comienza aquí.
+                </p>
+
+                <div class="dynamic-slogan">
+                    <span id="dynamic-text"></span>
+                </div>
+
+                <a href="#final-cta" class="btn-main-cta" aria-label="Accede al Núcleo">
+                    ACCEDE AL NÚCLEO
+                </a>
+
+                <div class="social-hero-section">
+                    <a href="https://www.instagram.com/elnucleoclub?igsh=MTdnNnVxazd0Nml2dw==" target="_blank" aria-label="Instagram">
+                        <img src="insta.avif" alt="Instagram" />
+                    </a>
+                    <a href="#" target="_blank" aria-label="TikTok (próximamente)">
+                        <img src="tiktok.avif" alt="TikTok" />
+                    </a>
+                    <a href="https://t.me/TU_TELEGRAM" target="_blank" aria-label="Telegram">
+                        <img src="tele.webp" alt="Telegram" />
+                    </a>
+                    <a href="#" target="_blank" aria-label="YouTube (próximamente)">
+                        <img src="yt.webp" alt="YouTube" />
+                    </a>
+                    <a href="mailto:elnucleocde@gmail.com" aria-label="Enviar correo a El Núcleo Club">
+                        <span class="material-icons">email</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="abstract-section content-section">
+            <div class="abstract-icons">
+                <span class="abstract-icon-item material-icons">star</span>
+                <span class="abstract-icon-item material-icons">rocket_launch</span>
+                <span class="abstract-icon-item material-icons">bolt</span>
+            </div>
+            <p class="text">
+                Nuestro objetivo es ser la red descentralizada más grande del mundo, enfocada en crear,
+                multiplicar y preservar la riqueza y la oportunidad para todos los emprendedores.
+            </p>
+        </section>
+
+        <section id="el-nucleo" class="content-section">
+            <h2>¿Qué es El Núcleo?</h2>
+            <div class="content-grid">
+                <div>
+                    <h3>Descubre tu Potencial Ilimitado</h3>
+                    <p>En El Núcleo, trasciendes límites y construyes una vida de propósito y abundancia. No te conformes, sé extraordinario.</p>
+                </div>
+                <div>
+                    <h3>¿Para Quién Es?</h3>
+                    <p>Para visionarios y emprendedores comprometidos con una transformación profunda. Si buscas ir más allá del promedio, este es tu lugar.</p>
+                </div>
+                <div>
+                    <h3>El Problema Que Resolvemos</h3>
+                    <p>Ofrecemos claridad y estructura en un mundo lleno de ruido. Enfócate en tu evolución, sin distracciones, para resultados reales.</p>
+                </div>
+                <div>
+                    <h3>La Transformación Que Prometemos</h3>
+                    <p>De la inacción a la acción masiva, de la confusión a la claridad. Esta es tu puerta a una nueva realidad.</p>
+                </div>
+            </div>
+            <a href="#final-cta" class="btn-main-cta" style="margin-top: 50px;">
+                QUIERO UNIRME A EL NÚCLEO
+            </a>
+        </section>
+
+        <section id="ecosistema" class="content-section">
+            <h2>Nuestro Ecosistema de Éxito</h2>
+            <p>El Núcleo te ofrece herramientas integrales para potenciar tu crecimiento en todas las áreas.</p>
+            <div class="ecosystem-grid">
+                <div class="ecosystem-item">
+                    <span class="material-icons">architecture</span>
+                    <h3>Módulos de Transformación</h3>
+                    <p>Acceso a contenido de alto valor para dominar áreas clave.</p>
+                </div>
+                <div class="ecosystem-item">
+                    <span class="material-icons">groups</span>
+                    <h3>Comunidad Privada</h3>
+                    <p>Conéctate con mentes afines en un entorno exclusivo.</p>
+                </div>
+                <div class="ecosystem-item">
+                    <span class="material-icons">videocam</span>
+                    <h3>Llamadas Semanales en Vivo</h3>
+                    <p>Sesiones interactivas con expertos para resolver dudas.</p>
+                </div>
+                <div class="ecosystem-item">
+                    <span class="material-icons">article</span>
+                    <h3>Journal & Herramientas</h3>
+                    <p>Recursos prácticos y ejercicios para acelerar tu progreso.</p>
+                </div>
+                <div class="ecosystem-item">
+                    <span class="material-icons">redeem</span>
+                    <h3>Bonus Exclusivos & Giveaways</h3>
+                    <p>Beneficios adicionales solo para miembros de El Núcleo.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="mapa" class="content-section">
+            <h2>Tu Ruta de Transformación</h2>
+            <p>El Núcleo no es un curso, es un viaje. Cada paso te acerca a tu versión más poderosa.</p>
+            <div class="transformation-steps">
+                <div class="step-item">
+                    <span class="step-number">01</span>
+                    <div class="step-content">
+                        <h3>Reconoces</h3>
+                        <p>Despiertas, vuelves a ti. Reconoces tu poder inherente y tu verdadera dirección.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <span class="step-number">02</span>
+                    <div class="step-content">
+                        <h3>Reprogramas</h3>
+                        <p>Instalas una nueva identidad con claridad. Rompes patrones limitantes y construyes nuevas bases.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <span class="step-number">03</span>
+                    <div class="step-content">
+                        <h3>Expandes</h3>
+                        <p>Llevas tu transformación al mundo, con propósito. Vives una vida sin límites.</p>
+                    </div>
+                </div>
+            </div>
+            <p class="mapa-final-text">
+                El Núcleo no tiene un fin.
+                <span>Porque tú tampoco lo tienes. Vienes a despertar algo que ya no vas a poder ignorar jamás.</span>
+            </p>
+        </section>
+
+        <section id="contacto" class="content-section">
+            <h2>Preguntas Frecuentes</h2>
+            <div class="faq-accordion">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        ¿Qué es El Núcleo Club?
+                        <span class="material-icons icon">add</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>El Núcleo Club es una comunidad exclusiva para emprendedores y visionarios que buscan una transformación profunda y herramientas prácticas para multiplicar su riqueza y oportunidades.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        ¿Cómo obtengo una membresía de El Núcleo Club?
+                        <span class="material-icons icon">add</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Haz clic en "Accede al Núcleo" o "Únete por $100/mes" en esta página. Serás dirigido al formulario de inscripción.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        ¿Cuál es el precio de la membresía?
+                        <span class="material-icons icon">add</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>La membresía tiene un costo de $100 al mes. Acceso ilimitado a todo nuestro ecosistema.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        ¿Cómo funciona la garantía de reembolso de 14 días?
+                        <span class="material-icons icon">add</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Garantía de 14 días. Si no estás satisfecho, solicita un reembolso completo dentro de ese plazo.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        ¿La membresía está disponible internacionalmente?
+                        <span class="material-icons icon">add</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Sí, nuestra comunidad es global. Aceptamos miembros de todas las nacionalidades.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        ¿Tienes más preguntas?
+                        <span class="material-icons icon">add</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Escríbenos directamente a nuestro correo electrónico o por WhatsApp para asistencia personalizada.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-info">
+                ¿Necesitas ayuda adicional? Envíanos un correo a: <a href="mailto:elnucleocde@gmail.com">elnucleocde@gmail.com</a>
+            </div>
+            <a href="https://wa.me/13058155759" target="_blank" class="btn-main-cta" style="margin-top: 30px;">
+                <span class="material-icons" style="vertical-align: middle; margin-right: 8px;">whatsapp</span>
+                CONTÁCTANOS POR WHATSAPP
+            </a>
+        </section>
+
+        <section id="actualizaciones" class="content-section">
+            <h2>Actualizaciones & Testimonios</h2>
+            <div class="placeholder-content">
+                <p>Aquí se añadirán futuros video-testimonios y actualizaciones inspiradoras que muestren la transformación real de nuestros miembros.</p>
+                <p style="margin-top: 15px;">¡Mantente atento para ver las pruebas de que el promedio no sobrevive en El Núcleo!</p>
+            </div>
+        </section>
+
+        <section id="final-cta" class="content-section"> <h2>¿Estás listo para tu transformación?</h2>
+            <p>
+                Tu viaje hacia el éxito ilimitado comienza ahora. Elige tu camino.
+            </p>
+            <div class="cta-options">
+                <a href="#" class="cta-option-button">
+                    Quiero empezar ahora como miembro mensual
+                </a>
+                <a href="#" class="cta-option-button" style="background-color: #0056b3;">
+                    ÚNETE POR $100/MES
+                </a>
+            </div>
+            <p class="cta-description" style="margin-top: 20px;">
+                La única acción obligatoria es: convertir. Todos los caminos deben llevar a eso.
+            </p>
+        </section>
+
+        <footer>
+            <div class="social-icons">
+                <a href="https://www.instagram.com/elnucleoclub?igsh=MTdnNnVxazd0Nml2dw==" target="_blank" aria-label="Instagram">
+                    <img src="insta.avif" alt="Instagram" />
+                </a>
+                <a href="#" target="_blank" aria-label="TikTok (próximamente)">
+                    <img src="tiktok.avif" alt="TikTok" />
+                </a>
+                <a href="https://t.me/TU_TELEGRAM" target="_blank" aria-label="Telegram">
+                    <img src="tele.webp" alt="Telegram" />
+                </a>
+                <a href="#" target="_blank" aria-label="YouTube (próximamente)">
+                    <img src="yt.webp" alt="YouTube" />
+                </a>
+                <a href="mailto:elnucleocde@gmail.com" aria-label="Enviar correo a El Núcleo Club">
+                    <span class="material-icons">email</span>
+                </a>
+            </div>
+            <p>© 2025 El Núcleo Club. Todos los derechos reservados.</p>
+        </footer>
+
+        <a href="https://wa.me/13058155759" target="_blank" class="whatsapp-float" aria-label="Contactar por WhatsApp">
+            <span class="material-icons">whatsapp</span>
+        </a>
+
+    </div>
+
+    <script>
+        // --- JavaScript para el Modal de Lead Capture ---
+        const leadCaptureModal = document.getElementById('leadCaptureModal');
+        const leadCaptureForm = document.getElementById('leadCaptureForm');
+        const loginButton = document.querySelector('.login-button'); // Selecciona el botón de login
+
+        // Evento para mostrar el modal al hacer clic en el botón LOGIN
+        loginButton.addEventListener('click', () => {
+            leadCaptureModal.classList.add('visible');
+        });
+
+        leadCaptureForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Evita el envío tradicional del formulario
+
+            const name = document.getElementById('nameInput').value;
+            const email = document.getElementById('emailInput').value;
+
+            console.log('Nombre:', name, 'Correo:', email);
+
+            alert(`¡Gracias, ${name}! Te hemos enviado un correo. ¡Bienvenido a El Núcleo!`);
+
+            // Ocultar el modal después de un breve retraso
+            setTimeout(() => {
+                leadCaptureModal.classList.remove('visible'); // Usa remove para ocultar
+                // Puedes añadir un cookie o localStorage para recordar que ya accedió si fuera necesario en otro flujo
+                // localStorage.setItem('hasAccessedNucleo', 'true');
+            }, 500);
+        });
+
+        // NOTA: La lógica de `localStorage` para ocultar el modal al cargar la página ha sido eliminada,
+        // ya que el modal ahora solo se activa por el botón "LOGIN".
+        // Si en el futuro quieres que se "recuerde" si ya se logueó, habría que añadirla de nuevo.
+
+
+        // --- JavaScript para Header Sticky y Animaciones al Scroll ---
+        const header = document.querySelector('header');
+        const sections = document.querySelectorAll('section.content-section'); // Selecciona solo las secciones de contenido para la animación de visibilidad
+
+        function checkScroll() {
+            // Header sticky effect
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+
+            // Section reveal on scroll
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+
+                // Si la sección está 150px dentro de la ventana de visualización, hacerla visible
+                if (sectionTop < windowHeight - 150) {
+                    section.classList.add('visible');
+                } else {
+                    // Opcional: Si quieres que se oculten al salir de la vista (para animaciones de reaparición)
+                    // section.classList.remove('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', checkScroll);
+        // Ejecutar al cargar para mostrar las secciones visibles inicialmente
+        checkScroll();
+
+
+        // --- JavaScript para FAQ Accordion ---
+        const faqQuestions = document.querySelectorAll('.faq-question');
+
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling; // La respuesta es el siguiente elemento hermano
+                const icon = question.querySelector('.icon');
+
+                // Cerrar otras preguntas abiertas
+                faqQuestions.forEach(otherQuestion => {
+                    if (otherQuestion !== question && otherQuestion.classList.contains('active')) {
+                        otherQuestion.classList.remove('active');
+                        otherQuestion.nextElementSibling.style.maxHeight = 0;
+                        otherQuestion.nextElementSibling.style.paddingTop = '0px';
+                        otherQuestion.querySelector('.icon').style.transform = 'rotate(0deg)';
+                    }
+                });
+
+                // Abrir o cerrar la pregunta actual
+                if (question.classList.contains('active')) {
+                    question.classList.remove('active');
+                    answer.style.maxHeight = 0;
+                    answer.style.paddingTop = '0px';
+                    icon.style.transform = 'rotate(0deg)';
+                } else {
+                    question.classList.add('active');
+                    answer.style.maxHeight = answer.scrollHeight + 'px'; // Ajusta la altura dinámicamente
+                    answer.style.paddingTop = '10px';
+                    icon.style.transform = 'rotate(45deg)';
+                }
+            });
+        });
+
+        // --- JavaScript para la frase dinámica de la portada ---
+        const dynamicTextElement = document.getElementById('dynamic-text');
+        const slogans = [
+            "ELITE EN CADA ÁMBITO.",
+            "TU CAMINO, TU RIQUEZA.",
+            "TRANSFORMA, MULTIPLICA, IMPACTA.",
+            "DOMINA TUS METAS."
+        ];
+        let sloganIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingSpeed = 100; // Velocidad de escritura (ms por caracter)
+        const deletingSpeed = 50; // Velocidad de borrado (ms por caracter)
+        const delayBetweenSlogans = 2000; // Retraso antes de la siguiente frase (ms)
+
+        function typeWriter() {
+            const currentSlogan = slogans[sloganIndex];
+
+            if (isDeleting) {
+                // Borrando texto
+                dynamicTextElement.textContent = currentSlogan.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                // Escribiendo texto
+                dynamicTextElement.textContent = currentSlogan.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeDelay = typingSpeed;
+            if (isDeleting) {
+                typeDelay = deletingSpeed;
+            }
+
+            if (!isDeleting && charIndex === currentSlogan.length) {
+                // Si terminó de escribir, esperar un momento y luego empezar a borrar
+                typeDelay = delayBetweenSlogans;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                // Si terminó de borrar, pasar a la siguiente frase
+                isDeleting = false;
+                sloganIndex = (sloganIndex + 1) % slogans.length;
+                typeDelay = 500; // Pequeño retraso antes de empezar a escribir la siguiente
+            }
+
+            setTimeout(typeWriter, typeDelay);
+        }
+
+        // Iniciar el efecto de máquina de escribir cuando la página esté completamente cargada
+        // Ahora el modal no interrumpe, así que se puede iniciar directamente al cargar.
+        window.addEventListener('load', typeWriter);
+
+    </script>
+</body>
+</html>
